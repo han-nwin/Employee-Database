@@ -2,6 +2,9 @@
 #include <stdbool.h>
 #include <getopt.h>
 
+#include "common.h"
+#include "file.h"
+
 void print_usage(char *argv[]) {
   printf("Usage: %s -n -f <database file>\n", argv[0]);
   printf("\t -n - create new database file\n");
