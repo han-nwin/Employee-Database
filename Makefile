@@ -18,4 +18,4 @@ clean:
 
 .PHONY: run
 run: $(TARGET) 
-	./$(TARGET)
+	./$(TARGET) $(ARGS)
