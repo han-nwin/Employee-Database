@@ -44,9 +44,16 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
     return STATUS_ERROR;
   }
 
-
+//Check if the header filesize
   struct stat dbstat = {0};
-  fstat(fd, )
+  fstat(fd, &dbstat);
+
+  if (header->filesize != dbstat.st_size) {
+    printf("Corrupted database\n");
+    free(header);
+    return STATUS_ERROR;
+  }
+
 
   return STATUS_SUCCESS;
 }

@@ -8,9 +8,6 @@
 #include "file.h"
 
 
-
-
-
 int create_db_file(char *filename) {
 
   //Try open the file not create it to see if it already exists

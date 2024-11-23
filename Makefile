@@ -5,17 +5,19 @@ OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 default: $(TARGET)
 
 $(TARGET): $(OBJ)
-	gcc -o $@ $?
+	@mkdir -p bin
+	gcc -o $@ $^
 
 obj/%.o: src/%.c
+	@mkdir -p obj
 	gcc -c $< -o $@ -Iinclude
 
-.PHONY: run
+.PHONY: clean
 clean:
 	rm -f obj/*.o
 	rm -f bin/*
 	rm -f *.db
 
 .PHONY: run
-run: $(TARGET) 
+run: $(TARGET)
 	./$(TARGET) $(ARGS)
