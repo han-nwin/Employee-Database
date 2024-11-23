@@ -8,6 +8,33 @@
 #include "parse.h"
 #include "common.h"
 
+
+/**
+ * @brief Take a file descriptor and allocate memory for it to create a dbheader_t type file
+ * */
+int create_db_header(int fd, struct dbheader_t **headerOut) {
+  //Allocate memory and initialize with '0'
+  struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
+
+  if (header == NULL) {
+    printf("Calloc failed to create db header\n");
+    return STATUS_ERROR;
+  }
+
+  header->version = 0x1;
+  header->count = 0;
+  header->magic = HEADER_MAGIC;
+  header->filesize = sizeof(struct dbheader_t);
+
+  *headerOut = header;
+
+  return STATUS_SUCCESS;
+}
+
+
+/**
+ * @brief Take a file desciptor and validate if the file is already exist (type dbheader_t)
+ * */
 int validate_db_header(int fd, struct dbheader_t **headerOut) {
   
   if(fd < 0) {
@@ -54,26 +81,33 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
     return STATUS_ERROR;
   }
 
-
-  return STATUS_SUCCESS;
-}
-
-
-int create_db_header(int fd, struct dbheader_t **headerOut) {
-  //Allocate memory and initialize with '0'
-  struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
-
-  if (header == NULL) {
-    printf("Calloc failed\n");
-    return STATUS_ERROR;
-  }
-
-  header->version = 0x1;
-  header->count = 0;
-  header->magic = HEADER_MAGIC;
-  header->filesize = sizeof(struct dbheader_t);
-
   *headerOut = header;
 
   return STATUS_SUCCESS;
 }
+
+
+
+/** 
+ * @brief Take an output on disk file descriptor and write the content of the file
+ *
+ * */
+int output_file(int fd, struct dbheader_t *db_hd) {
+  if (fd < 0) {
+    printf("Got a bad file descriptor from user\n");
+    return STATUS_ERROR;
+  }
+
+  db_hd->magic = htonl(db_hd->magic);
+  db_hd->filesize = htonl(db_hd->filesize);
+  db_hd->version = htons(db_hd->version);
+  db_hd->count = htons(db_hd->count);
+
+  lseek(fd, 0, SEEK_SET);
+
+  write(fd, db_hd, sizeof(struct dbheader_t));
+
+  return STATUS_SUCCESS;
+
+}
+

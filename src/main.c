@@ -64,12 +64,20 @@ int main (int argc, char *argv[]) {
     db_fd = open_db_file(filepath);
     if (db_fd == STATUS_ERROR) {
       printf("Unable to open database file\n");
+      return -1;
+    }
 
+    if (validate_db_header(db_fd, &db_hd) == STATUS_ERROR) {
+      printf("Failed to validate database header\n");
+      return -1;
     }
   }
 
   printf("Newfile: %d\n", newfile);
   printf("Filepath: %s\n", filepath);
+
+  //Write to db file
+  output_file(db_fd, db_hd);
 
   return 0;
 }
