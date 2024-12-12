@@ -1,0 +1,12 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-c",
+      "src/srv/srvpoll.c"
+    ],
+    "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
+    "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/srv/srvpoll.c"
+  }
+]
