@@ -8,5 +8,46 @@
     ],
     "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
     "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/srv/srvpoll.c"
-  }
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-c",
+      "src/srv/file.c"
+    ],
+    "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
+    "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/srv/file.c"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-c",
+      "src/srv/parse.c"
+    ],
+    "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
+    "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/srv/parse.c"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-c",
+      "src/srv/main.c"
+    ],
+    "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
+    "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/srv/main.c"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-c",
+      "src/cli/main.c"
+    ],
+    "directory": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database",
+    "file": "/mnt/c/Users/Han/Desktop/Coding Projects/Employee-Database/src/cli/main.c"
+  },
+
 ]
