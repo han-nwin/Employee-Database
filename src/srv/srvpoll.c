@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -10,11 +9,12 @@
 
 #include "common.h"
 #include "srvpoll.h"
+#include "parse.h"
 
 void fsm_reply_hello(clientstate_t *client, dbproto_hdr_t *hdr) {
     hdr->type = htonl(MSG_HELLO_RESP);
     hdr->len = htons(1);
-    dbproto_hello_resp *hello = (dbproto_hello_req*)&hdr[1];
+    dbproto_hello_resp* hello = (dbproto_hello_resp*)&hdr[1];
     hello->proto = htons(PROTO_VER);
 
     write(client->fd, hdr, sizeof(dbproto_hdr_t) + sizeof(dbproto_hello_resp));
@@ -49,14 +49,14 @@ void send_employees(struct dbheader_t *dbhdr, struct employee_t **employeeptr, c
 
     write(client->fd, hdr, sizeof(dbproto_hdr_t));
 
-    dbproto_employee_list_resp *employee = (dbproto_hello_req*)&hdr[1];
+    dbproto_employee_list_resp *employee = (dbproto_employee_list_resp*)&hdr[1];
 
     struct employee_t *employees = *employeeptr;
 
     int i = 0;
     for (; i < dbhdr->count; i++) {
-        strncpy(&employee->name, employees[i].name, sizeof(employee->name));
-        strncpy(&employee->address, employees[i].address, sizeof(employee->address));
+        strncpy((char *)&employee->name, employees[i].name, sizeof(employee->name));
+        strncpy((char *)employee->address, employees[i].address, sizeof(employee->address));
         employee->hours = htonl(employees[i].hours);
         write(client->fd, employee, sizeof(dbproto_employee_list_resp));
     }
@@ -91,10 +91,10 @@ void handle_client_fsm(struct dbheader_t *dbhdr, struct employee_t **employeeptr
     if (client->state == STATE_MSG) {
         if (hdr->type == MSG_EMPLOYEE_ADD_REQ) {
 
-            dbproto_employee_add_req* employee = (dbproto_hello_req*)&hdr[1];
+            dbproto_employee_add_req* employee = (dbproto_employee_add_req*)&hdr[1];
 
             printf("Adding employee: %s\n", employee->data);
-            if (add_employee(dbhdr, employeeptr, employee->data) != STATUS_SUCCESS) {
+            if (add_employee(dbhdr, employeeptr, (char *)employee->data) != STATUS_SUCCESS) {
                 fsm_reply_add_err(client, hdr);
                 return;
             } else {
